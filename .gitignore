@@ -1,0 +1,48 @@
+# Node modules
+node_modules/
+.npm
+.yarn
+package-lock.json
+yarn.lock
+
+# Environment
+.env
+.env.local
+.env.*.local
+backend/.env.local
+frontend/.env.local
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+prisma/migrations/
+backend/prisma/migrations/
+backend/prisma/*.db
+backend/prisma/*.db-shm
+backend/prisma/*.db-wal
+
+# OS
+Thumbs.db
+.DS_Store

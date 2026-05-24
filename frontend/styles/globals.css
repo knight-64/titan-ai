@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  @apply transition-colors duration-300;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-gradient-titan text-white font-sans;
+}
+
+/* Glassmorphism utility */
+.glassmorphism {
+  @apply bg-white/10 backdrop-blur-glass border border-white/20 rounded-xl;
+}
+
+/* Neon text glow */
+.neon-text {
+  @apply text-transparent bg-clip-text bg-gradient-neon;
+  text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+}
+
+/* Glow animation for buttons */
+.btn-glow {
+  @apply relative overflow-hidden;
+}
+
+.btn-glow:hover {
+  @apply opacity-100;
+}
+
+/* Floating animation */
+.float-animation {
+  @apply animate-float-slow;
+}
+
+/* Gradient text */
+.gradient-text {
+  @apply bg-gradient-neon bg-clip-text text-transparent;
+}

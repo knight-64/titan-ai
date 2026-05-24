@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  password  String
+  name      String
+  avatar    String?
+  aiMode    String     @default("friendly")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  chats          Chat[]
+  memories       Memory[]
+  analytics      Analytics?
+  documents      Document[]
+  searchHistory  SearchHistory[]
+}
+
+model Chat {
+  id        String     @id @default(cuid())
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String     @default("New Chat")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  messages  Message[]
+
+  @@index([userId])
+}
+
+model Message {
+  id        String     @id @default(cuid())
+  chatId    String
+  chat      Chat       @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  role      String     // "user" or "assistant"
+  content   String
+  createdAt DateTime   @default(now())
+
+  @@index([chatId])
+}
+
+model Memory {
+  id        String     @id @default(cuid())
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category  String     // "personal", "work", "learning", "projects", "tasks"
+  title     String
+  content   String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([userId, category])
+}
+
+model AIMode {
+  id           String   @id @default(cuid())
+  mode         String   @unique // "friendly", "professional", "mentor", "motivational", "funny", "coding"
+  systemPrompt String
+  temperature  Float    @default(0.7)
+  maxTokens    Int      @default(2000)
+  createdAt    DateTime @default(now())
+}
+
+model Analytics {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messageCount Int      @default(0)
+  chatCount    Int      @default(0)
+  memoryCount  Int      @default(0)
+  lastActive   DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// Phase 2 Models
+model Document {
+  id        String     @id @default(cuid())
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fileName  String
+  fileType  String
+  size      Int
+  filePath  String
+  summary   String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([userId])
+}
+
+model SearchHistory {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  query       String
+  resultCount Int
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+}
