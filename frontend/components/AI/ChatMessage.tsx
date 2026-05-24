@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -13,6 +14,27 @@ interface ChatMessageProps {
 
 export default function ChatMessage({ message }: ChatMessageProps) {
   const isUser = message.role === "user";
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [supportsTTS, setSupportsTTS] = useState(false);
+
+  useEffect(() => {
+    setSupportsTTS(typeof window !== "undefined" && !!window.speechSynthesis);
+  }, []);
+
+  const handleSpeak = () => {
+    if (!window.speechSynthesis) return;
+
+    if (isSpeaking) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+    } else {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(message.content);
+      utterance.onstart = () => setIsSpeaking(true);
+      utterance.onend = () => setIsSpeaking(false);
+      window.speechSynthesis.speak(utterance);
+    }
+  };
 
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
@@ -58,6 +80,18 @@ export default function ChatMessage({ message }: ChatMessageProps) {
             {message.content}
           </ReactMarkdown>
         </div>
+        {!isUser && supportsTTS && (
+          <button
+            onClick={handleSpeak}
+            className={`mt-2 text-xs px-2 py-1 rounded transition ${
+              isSpeaking
+                ? "bg-red-500/30 text-red-300 border border-red-500/50"
+                : "bg-white/10 text-gray-300 hover:bg-white/20"
+            }`}
+          >
+            {isSpeaking ? "🔊 Stop" : "🔊 Speak"}
+          </button>
+        )}
       </div>
     </div>
   );
