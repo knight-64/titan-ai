@@ -11,6 +11,7 @@ export function useVoiceRecognition(config: VoiceConfig = {}) {
   const [transcript, setTranscript] = useState("");
   const [interimTranscript, setInterimTranscript] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [browserSupportsSpeechRecognition, setBrowserSupportsSpeechRecognition] = useState(false);
   const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
@@ -18,6 +19,8 @@ export function useVoiceRecognition(config: VoiceConfig = {}) {
       const SpeechRecognition =
         (window as any).SpeechRecognition ||
         (window as any).webkitSpeechRecognition;
+
+      setBrowserSupportsSpeechRecognition(!!SpeechRecognition);
 
       if (!SpeechRecognition) {
         setError("Speech Recognition not supported in this browser");
@@ -97,7 +100,7 @@ export function useVoiceRecognition(config: VoiceConfig = {}) {
     startListening,
     stopListening,
     resetTranscript,
-    browserSupportsSpeechRecognition: !!recognitionRef.current,
+    browserSupportsSpeechRecognition,
   };
 }
 

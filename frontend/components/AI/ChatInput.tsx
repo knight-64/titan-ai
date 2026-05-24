@@ -12,11 +12,11 @@ interface ChatInputProps {
 export default function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
   const [input, setInput] = useState("");
   const voice = useVoiceRecognition({ continuous: false });
-  const [supportsVoice, setSupportsVoice] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setSupportsVoice(voice.browserSupportsSpeechRecognition);
-  }, [voice.browserSupportsSpeechRecognition]);
+    setMounted(true);
+  }, []);
 
   const handleVoiceInput = () => {
     if (!voice.isListening) {
@@ -60,17 +60,20 @@ export default function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
           placeholder="Type or speak your message..."
           className="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-accent disabled:opacity-50"
         />
-        {supportsVoice && (
+        {mounted && (
           <motion.button
             type="button"
             onClick={handleVoiceInput}
-            disabled={disabled}
-            whileHover={{ scale: 1.05 }}
+            disabled={disabled || !voice.browserSupportsSpeechRecognition}
+            title={voice.browserSupportsSpeechRecognition ? "Click to speak" : "Voice not supported in your browser"}
+            whileHover={{ scale: voice.browserSupportsSpeechRecognition ? 1.05 : 1 }}
             whileTap={{ scale: 0.95 }}
             className={`px-4 py-3 rounded-lg font-semibold transition ${
               voice.isListening
                 ? "bg-red-500/30 text-red-300 border border-red-500/50 hover:shadow-lg hover:shadow-red-500/50"
-                : "bg-purple-500/30 text-purple-300 border border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/50"
+                : voice.browserSupportsSpeechRecognition
+                ? "bg-purple-500/30 text-purple-300 border border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/50"
+                : "bg-gray-700/30 text-gray-500 border border-gray-600/50 cursor-not-allowed"
             }`}
           >
             {voice.isListening ? "🎤 Listening..." : "🎤"}
