@@ -61,7 +61,7 @@ export default function chatRoutes(prisma: PrismaClient) {
       const systemPrompt = await getSystemPrompt(prisma, aiMode);
       const conversationMessages: ChatMessage[] = [
         { role: "system", content: systemPrompt },
-        ...chat.messages.map((msg) => ({
+        ...chat.messages.map((msg: any) => ({
           role: msg.role as "user" | "assistant",
           content: msg.content,
         })),

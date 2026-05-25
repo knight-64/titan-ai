@@ -19,7 +19,7 @@ const PORT = process.env.BACKEND_PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: (origin, callback) => {
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
     // Allow any localhost port
     if (!origin || origin.includes('localhost') || origin.includes('127.0.0.1')) {
       callback(null, true);
