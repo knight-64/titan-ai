@@ -1,19 +1,19 @@
 # Dockerfile for Titan Backend
 
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
 # Copy package files
-COPY backend/package*.json ./
+COPY package*.json ./
 
 # Install dependencies
-RUN npm ci --only=production
+RUN npm install --legacy-peer-deps
 
 # Copy source code
-COPY backend/src ./src
-COPY backend/prisma ./prisma
-COPY backend/tsconfig.json ./
+COPY src ./src
+COPY prisma ./prisma
+COPY tsconfig.json ./
 
 # Build TypeScript
 RUN npm run build
@@ -21,9 +21,5 @@ RUN npm run build
 # Expose port
 EXPOSE 5000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:5000/health', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"
-
 # Run server
-CMD ["node", "dist/server.js"]
+CMD ["npm", "start"]
