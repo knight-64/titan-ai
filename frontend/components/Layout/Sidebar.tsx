@@ -17,7 +17,7 @@ export default function Sidebar() {
 
   const menuItems = [
     { label: "Dashboard", href: "/dashboard", icon: "📊" },
-    { label: "Chat", href: "/dashboard", icon: "💬" },
+    { label: "Tools", href: "/tools", icon: "🔧" },
     { label: "Memory", href: "/memory", icon: "🧠" },
     { label: "Settings", href: "/settings", icon: "⚙️" },
   ];
@@ -38,9 +38,9 @@ export default function Sidebar() {
 
       {/* Menu */}
       <nav className="flex-1 space-y-2">
-        {menuItems.map((item) => (
+        {menuItems.map((item, index) => (
           <Link
-            key={item.href}
+            key={index}
             href={item.href}
             className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition group"
           >
