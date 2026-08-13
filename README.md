@@ -295,3 +295,4 @@ Built with love for AI enthusiasts. Inspired by Jarvis, ChatGPT, and modern AI o
 4. Visit http://localhost:3000
 
 Happy building! 🎉
+# TITAN-AI-
