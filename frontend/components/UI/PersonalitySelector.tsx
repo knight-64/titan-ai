@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 
 interface PersonalitySelectorProps {
   currentMode: string;
@@ -25,10 +24,8 @@ export default function PersonalitySelector({
 
   return (
     <div className="relative">
-      <motion.button
+      <button
         onClick={() => setOpen(!open)}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
         className="flex items-center gap-2 glassmorphism px-4 py-2 rounded-lg hover:border-accent transition"
       >
         <span className="text-lg">
@@ -37,14 +34,11 @@ export default function PersonalitySelector({
         <span className="text-sm font-medium capitalize hidden sm:inline">
           {currentMode}
         </span>
-      </motion.button>
+      </button>
 
-      <AnimatePresence>
+      
         {open && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+          <div
             className="absolute top-full right-0 mt-2 glassmorphism rounded-lg p-3 space-y-2 z-50 min-w-max"
           >
             {modes.map((mode) => (
@@ -64,9 +58,9 @@ export default function PersonalitySelector({
                 <span className="font-medium">{mode.label}</span>
               </button>
             ))}
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      
     </div>
   );
 }

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 import axios from "axios";
 import Sidebar from "@/components/Layout/Sidebar";
 
@@ -31,7 +30,7 @@ export default function SettingsPage() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      router.push("/auth/login");
+      setLoading(false);
       return;
     }
     fetchProfile();
@@ -87,11 +86,7 @@ export default function SettingsPage() {
     <div className="min-h-screen bg-gradient-titan flex">
       <Sidebar />
       <main className="flex-1 p-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-2xl"
-        >
+        <div className="max-w-2xl">
           <h1 className="text-4xl font-bold gradient-text mb-8">Settings</h1>
 
           {/* Profile Section */}
@@ -154,7 +149,7 @@ export default function SettingsPage() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </main>
     </div>
   );

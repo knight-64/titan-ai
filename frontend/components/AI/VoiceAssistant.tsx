@@ -32,9 +32,13 @@ export function VoiceAssistant() {
 
       try {
         // Send to chat API
-        const response = await axios.post("/api/chat/send", {
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+        const token = localStorage.getItem("token");
+        const response = await axios.post(`${API_URL}/api/chat/send`, {
           message: userInput,
           chatId: "voice-chat",
+        }, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
         });
 
         let assistantMessage = "";

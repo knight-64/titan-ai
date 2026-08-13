@@ -3,7 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import fileUpload from "express-fileupload";
 import { PrismaClient } from "@prisma/client";
-import authRoutes from "./routes/auth.js";
 import chatRoutes from "./routes/chat.js";
 import memoryRoutes from "./routes/memory.js";
 import aiRoutes from "./routes/ai.js";
@@ -19,7 +18,7 @@ const PORT = process.env.BACKEND_PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+  origin: (origin, callback) => {
     // Allow any localhost port
     if (!origin || origin.includes('localhost') || origin.includes('127.0.0.1')) {
       callback(null, true);
@@ -43,7 +42,6 @@ app.get("/health", (req, res) => {
 });
 
 // Routes
-app.use("/api/auth", authRoutes(prisma));
 app.use("/api/chat", authMiddleware(prisma), chatRoutes(prisma));
 app.use("/api/memory", authMiddleware(prisma), memoryRoutes(prisma));
 app.use("/api/ai", authMiddleware(prisma), aiRoutes(prisma));

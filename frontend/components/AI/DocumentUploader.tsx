@@ -38,8 +38,13 @@ export function DocumentUploader() {
 
     setLoading(true);
     try {
-      const response = await axios.post("/api/documents/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const token = localStorage.getItem("token");
+      const response = await axios.post(`${API_URL}/api/documents/upload`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
       });
       setAnalysis(response.data);
       setQuestion("");
@@ -56,9 +61,14 @@ export function DocumentUploader() {
 
     setAnswering(true);
     try {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const token = localStorage.getItem("token");
       const response = await axios.post(
-        `/api/documents/question/${analysis.documentId}`,
-        { question }
+        `${API_URL}/api/documents/question/${analysis.documentId}`,
+        { question },
+        {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        }
       );
       setAnswer(response.data.answer);
     } catch (error: any) {

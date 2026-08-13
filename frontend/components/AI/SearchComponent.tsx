@@ -29,9 +29,13 @@ export function SearchComponent() {
 
     setLoading(true);
     try {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const token = localStorage.getItem("token");
       const endpoint = mode === "research" ? "/api/search/research" : "/api/search/search";
-      const response = await axios.post(endpoint, {
+      const response = await axios.post(`${API_URL}${endpoint}`, {
         [mode === "research" ? "topic" : "query"]: query
+      }, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
       setResults(response.data);
     } catch (error) {

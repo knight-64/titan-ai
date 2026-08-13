@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { useVoiceRecognition } from "@/hooks/useVoice";
 
 interface ChatInputProps {
@@ -42,14 +41,10 @@ export default function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-2">
       {voice.transcript && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="p-2 bg-cyan-500/20 border border-cyan-500/30 rounded-lg text-sm text-cyan-300"
-        >
+        <div className="p-2 bg-cyan-500/20 border border-cyan-500/30 rounded-lg text-sm text-cyan-300">
           Recognized: {voice.transcript}
           {voice.interimTranscript && <span className="text-gray-400 italic"> {voice.interimTranscript}</span>}
-        </motion.div>
+        </div>
       )}
       <div className="flex gap-3">
         <input
@@ -61,13 +56,11 @@ export default function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
           className="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-accent disabled:opacity-50"
         />
         {mounted && (
-          <motion.button
+          <button
             type="button"
             onClick={handleVoiceInput}
             disabled={disabled || !voice.browserSupportsSpeechRecognition}
             title={voice.browserSupportsSpeechRecognition ? "Click to speak" : "Voice not supported in your browser"}
-            whileHover={{ scale: voice.browserSupportsSpeechRecognition ? 1.05 : 1 }}
-            whileTap={{ scale: 0.95 }}
             className={`px-4 py-3 rounded-lg font-semibold transition ${
               voice.isListening
                 ? "bg-red-500/30 text-red-300 border border-red-500/50 hover:shadow-lg hover:shadow-red-500/50"
@@ -77,17 +70,15 @@ export default function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
             }`}
           >
             {voice.isListening ? "🎤 Listening..." : "🎤"}
-          </motion.button>
+          </button>
         )}
-        <motion.button
+        <button
           type="submit"
           disabled={disabled || !input.trim()}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
           className="bg-gradient-neon text-black px-6 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition disabled:opacity-50"
         >
           Send
-        </motion.button>
+        </button>
       </div>
     </form>
   );

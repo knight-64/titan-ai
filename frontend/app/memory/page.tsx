@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 import axios from "axios";
 import Sidebar from "@/components/Layout/Sidebar";
 
@@ -112,9 +111,7 @@ export default function MemoryPage() {
           </div>
 
           {showForm && (
-            <motion.form
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
+            <form
               onSubmit={handleCreateMemory}
               className="glassmorphism p-6 rounded-lg mb-8 space-y-4"
             >
@@ -167,7 +164,7 @@ export default function MemoryPage() {
               >
                 Save Memory
               </button>
-            </motion.form>
+            </form>
           )}
 
           {/* Category Filter */}

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"; 
 
 export default function Sidebar() {
   const router = useRouter();
@@ -24,8 +24,6 @@ export default function Sidebar() {
 
   return (
     <motion.aside
-      initial={{ x: -300 }}
-      animate={{ x: 0 }}
       className={`${
         collapsed ? "w-20" : "w-64"
       } bg-gradient-neon/10 border-r border-white/10 p-4 transition-all duration-300 flex flex-col`}

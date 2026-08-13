@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import ChatMessage from "./ChatMessage";
 import ChatInput from "./ChatInput";
@@ -124,11 +123,9 @@ export default function ChatInterface() {
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-6 space-y-6">
-        <AnimatePresence>
+        
           {messages.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+            <div
               className="flex flex-col items-center justify-center h-full text-center"
             >
               <div className="w-24 h-24 bg-gradient-neon rounded-full opacity-20 blur-2xl mb-6"></div>
@@ -136,31 +133,26 @@ export default function ChatInterface() {
               <p className="text-gray-400 max-w-md">
                 Start a conversation with your AI assistant. I'm here to help with anything you need.
               </p>
-            </motion.div>
+            </div>
           ) : (
             messages.map((msg, i) => (
-              <motion.div
+              <div
                 key={msg.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05 }}
               >
                 <ChatMessage message={msg} />
-              </motion.div>
+              </div>
             ))
           )}
-        </AnimatePresence>
+        
 
         {loading && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+          <div
             className="flex gap-2"
           >
             <div className="w-2 h-2 bg-accent rounded-full animate-bounce"></div>
             <div className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: "0.1s" }}></div>
             <div className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
-          </motion.div>
+          </div>
         )}
 
         <div ref={messagesEndRef} />

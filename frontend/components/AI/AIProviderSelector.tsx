@@ -21,7 +21,12 @@ export function AIProviderSelector() {
 
   const fetchProviderStatus = async () => {
     try {
-      const response = await axios.get("/api/ai/providers");
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
+      const response = await axios.get(`${API_URL}/api/ai/providers`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
       setStatus(response.data);
     } catch (error) {
       console.error("Failed to fetch provider status:", error);

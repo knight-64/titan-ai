@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { AuthResponse, User, Chat, Message, Memory, Profile } from "@/types";
+import { User, Chat, Message, Memory, Profile } from "@/types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -28,31 +28,7 @@ class TitanAPI {
     this.client.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   }
 
-  // Auth endpoints
-  async signup(email: string, password: string, name: string): Promise<AuthResponse> {
-    const response = await this.client.post<AuthResponse>("/auth/signup", {
-      email,
-      password,
-      name,
-    });
-    if (response.data.token) {
-      this.token = response.data.token;
-      this.setAuthHeader(this.token);
-    }
-    return response.data;
-  }
-
-  async login(email: string, password: string): Promise<AuthResponse> {
-    const response = await this.client.post<AuthResponse>("/auth/login", {
-      email,
-      password,
-    });
-    if (response.data.token) {
-      this.token = response.data.token;
-      this.setAuthHeader(this.token);
-    }
-    return response.data;
-  }
+  // Auth endpoints removed (login/signup handled externally or disabled)
 
   // Chat endpoints
   async sendMessage(
