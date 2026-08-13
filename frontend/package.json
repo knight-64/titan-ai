@@ -16,7 +16,7 @@
     "@radix-ui/react-select": "^2.0.0",
     "@tailwindcss/typography": "^0.5.19",
     "axios": "^1.6.5",
-    "framer-motion": "^10.16.16",
+    "framer-motion": "^10.18.0",
     "next": "^16.2.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
